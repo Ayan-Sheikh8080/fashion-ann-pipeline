@@ -26,4 +26,4 @@ os.makedirs("data/processed", exist_ok=True)
 np.savez("data/processed/train.npz", x=x_train, y=y_train)
 np.savez("data/processed/val.npz", x=x_val, y=y_val)
 np.savez("data/processed/test.npz", x=x_test, y=y_test)
-print("Processed:", x_train.shape, x_val.shape, x_test.shape)
+print("Processed:", x_train.shape, x_val.shape, x_test.shape)# tweak
