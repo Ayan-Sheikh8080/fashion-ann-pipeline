@@ -1,0 +1,44 @@
+stages:
+
+  prepare:
+    cmd: python src/prepare.py
+    outs:
+      - data/raw/train.npz
+      - data/raw/test.npz
+
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/train.npz
+      - data/raw/test.npz
+      - params.yaml
+    params:
+      - preprocess
+    outs:
+      - data/processed/train.npz
+      - data/processed/val.npz
+      - data/processed/test.npz
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/train.npz
+      - data/processed/val.npz
+      - params.yaml
+    params:
+      - train
+    outs:
+      - models/model.h5
+      - models/history.csv
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - models/model.h5
+      - data/processed/test.npz
+    outs:
+      - metrics.json
+      - reports/confusion_matrix.png
